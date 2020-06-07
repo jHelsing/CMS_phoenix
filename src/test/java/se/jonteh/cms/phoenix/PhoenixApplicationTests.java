@@ -1,4 +1,4 @@
-package se.jonteh.cms.Phoenix;
+package se.jonteh.cms.phoenix;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

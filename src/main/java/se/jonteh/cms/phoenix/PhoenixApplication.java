@@ -1,4 +1,4 @@
-package se.jonteh.cms.Phoenix;
+package se.jonteh.cms.phoenix;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

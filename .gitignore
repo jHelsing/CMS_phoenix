@@ -606,3 +606,4 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,windows,macos,intellij,gradle,java,visualstudio,eclipse
+/phoenix.iml
