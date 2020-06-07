@@ -6,3 +6,7 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/modules/Phoenix.iml
+/modules/Phoenix.main.iml
+/modules/Phoenix.test.iml
+/inspectionProfiles/Project_Default.xml
