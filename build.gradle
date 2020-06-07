@@ -1,0 +1,70 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id 'checkstyle'
+	id 'jacoco'
+	id 'org.sonarqube' version '2.8'
+	id 'com.github.spotbugs' version '4.0.5'
+}
+
+group = 'se.jonteh.cms'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+jacoco {
+	toolVersion = '0.8.5'
+}
+
+test {
+	useJUnitPlatform()
+	jacoco {
+		destinationFile = file("${buildDir}/jacoco/test.exec")
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		csv.enabled false
+	}
+}
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+	checkstyleTask.doLast {
+		reports.all { report ->
+			def outputFile = report.destination
+			if (outputFile.exists() && outputFile.text.contains("<error ")) {
+				throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+			}
+		}
+	}
+}
+
+task checkstyleAll {
+	dependsOn 'checkstyleMain'
+	dependsOn 'checkstyleTest'
+	tasks.findByName('checkstyleTest').mustRunAfter 'checkstyleMain'
+}
+
+// Runs all of the analysis tasks for Spotbugs and Jacoco
+task generateReports {
+	dependsOn 'spotbugsMain'
+	dependsOn 'spotbugsTest'
+	dependsOn 'jacocoTestReport'
+	tasks.findByName('spotbugsTest').mustRunAfter 'spotbugsMain'
+	tasks.findByName('jacocoTestReport').mustRunAfter 'spotbugsTest'
+}
